@@ -23,7 +23,9 @@ export const AuthProvider = ({ children }) => {
     const userData = async () => {
       try {
         const response = await axios.get(apiData.verify, {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${user}`,
+          },
         });
 
         console.log(response.data);

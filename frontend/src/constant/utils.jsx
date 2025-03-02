@@ -5,4 +5,7 @@ export const apiData = {
   register: `${api}/api/register`,
   verify: `${api}/api/verify`,
   logout: `${api}/api/logout`,
+  // admin --
+  adminUsersdata: `${api}/api/profile`,
+  adminSingleData: (id) => `${api}/api/profile/${id}`,
 };

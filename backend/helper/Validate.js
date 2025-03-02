@@ -4,8 +4,8 @@ exports.registerValidate = [
   check("name")
     .notEmpty()
     .withMessage("Name is required")
-    .isAlpha()
-    .withMessage("Name must contain only alphabetic characters")
+    .matches(/^[A-Za-z\s]+$/)
+    .withMessage("Name must contain only alphabetic characters and spaces")
     .isLength({ min: 3 })
     .withMessage("Name must be at least 3 characters long"),
 

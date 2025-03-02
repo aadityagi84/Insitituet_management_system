@@ -15,17 +15,6 @@ function Navbar() {
   const { user, setUser, roleData } = useAuth();
   const isAuthenticated = !!user;
 
-  const handleLogout = async () => {
-    try {
-      await axios.get(apiData.logout, { withCredentials: true });
-      Cookies.remove("user");
-      setUser(null);
-      navigate("/login");
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
-
   return (
     <nav className="bg-gray-800 p-4 text-white pr-10">
       <div className="container mx-auto flex justify-between items-center">
@@ -116,14 +105,6 @@ function Navbar() {
                     </ul>
                   </div>
                 )}
-              </div>
-              <div className="py-1">
-                <button
-                  onClick={handleLogout}
-                  className="block w-full text-left px-4 py-2 text-[25px] text-red-700 "
-                >
-                  <FaPowerOff />
-                </button>
               </div>
             </div>
           ) : (
