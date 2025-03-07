@@ -10,6 +10,9 @@ export const apiData = {
   adminSingleData: (id) => `${api}/api/profile/${id}`,
   updateUser: (id) => `${api}/api/update/${id}`,
 
+  // get students
+  getStudents: `${api}/api/getStudent`,
+
   // student
   studentData: `${api}/api/getStudent`,
   teacherdata: `${api}/api/getteacher`,

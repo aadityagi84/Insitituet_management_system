@@ -5,7 +5,7 @@ import { apiData } from "../constant/utils";
 import { useAuth } from "../context/UserContext";
 import toast from "react-hot-toast";
 
-const Modal = ({ isOpen, setIsOpen, selectedUser, userId }) => {
+const Modal = ({ isOpen, setIsOpen, userId, onUpdate }) => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
     name: "",
@@ -40,15 +40,15 @@ const Modal = ({ isOpen, setIsOpen, selectedUser, userId }) => {
       );
     }
   };
+
   useEffect(() => {
     if (isOpen && userId) {
       getSingleId(userId);
     }
   }, [isOpen, userId]);
 
-  const handleSubmit = async (e, id) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(userId);
     try {
       const updatedata = await axios.post(
         apiData.updateUser(userId),
@@ -59,16 +59,16 @@ const Modal = ({ isOpen, setIsOpen, selectedUser, userId }) => {
           },
         }
       );
-      console.log("updated data is there ", updatedata);
-      setIsOpen(false);
+      console.log("Updated data:", updatedata);
+      toast.success("User updated successfully!");
+      setIsOpen(false); // Close modal
+      if (onUpdate) onUpdate();
     } catch (error) {
       console.log(error);
-      console.log(error.response.data.message);
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Failed to update user");
     }
   };
 
-  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -137,10 +137,7 @@ const Modal = ({ isOpen, setIsOpen, selectedUser, userId }) => {
               </button>
             </div>
 
-            <form
-              onSubmit={(e) => handleSubmit(e, userId)}
-              className="space-y-4"
-            >
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label
                   htmlFor="name"
@@ -213,7 +210,7 @@ const Modal = ({ isOpen, setIsOpen, selectedUser, userId }) => {
                   value={formData.role}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                  placeholder="Enter your phone"
+                  placeholder="Enter your role"
                   required
                 />
               </div>

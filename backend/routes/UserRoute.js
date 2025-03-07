@@ -2,7 +2,11 @@ const express = require("express");
 const { handleregister } = require("../controller/UserController");
 const { registerValidate, loginvalidate } = require("../helper/Validate");
 const { handleLogin } = require("../controller/LoginUserController");
-const { userAuth, checkRole } = require("../middleware/AuthMiddleware");
+const {
+  userAuth,
+  checkRole,
+  teacherRole,
+} = require("../middleware/AuthMiddleware");
 const {
   handleAllUsers,
   handleSingleUser,
@@ -26,8 +30,8 @@ router.post("/update/:id", userAuth, checkRole, handleUserUpdate);
 router.get("/userProfile/:id", userAuth, checkRole, handleSingleProfile);
 
 // STUDENTS ROUTE
-router.get("/getStudent", userAuth, checkRole, fetchStudents);
-router.get("/getteacher", userAuth, checkRole, fetchTotalTeachers);
+router.get("/getStudent", userAuth, teacherRole, fetchStudents);
+router.get("/getteacher", userAuth, teacherRole, fetchTotalTeachers);
 
 router.get("/logout", (req, res) => {
   res.clearCookie("sessionId", {

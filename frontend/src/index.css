@@ -60,3 +60,35 @@
   height: 16px;
   color: #4a90e2;
 }
+.cursor {
+  position: relative;
+  width: 30em;
+  margin: 0 auto;
+  border-right: 2px solid rgba(255, 255, 255, 0.75);
+  text-align: center;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.typewriter-animation {
+  animation: typewriter 4s steps(50) 1 normal both,
+    /* Typing effect */ blinkingCursor 500ms steps(50) infinite normal; /* Blinking cursor */
+}
+
+@keyframes typewriter {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes blinkingCursor {
+  from {
+    border-right-color: rgba(255, 255, 255, 0.75);
+  }
+  to {
+    border-right-color: transparent;
+  }
+}

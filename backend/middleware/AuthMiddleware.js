@@ -31,3 +31,12 @@ exports.checkRole = (req, res, next) => {
   }
   next();
 };
+
+exports.teacherRole = (req, res, next) => {
+  if (!req.user || (req.user.role !== 0 && req.user.role !== 1)) {
+    return res
+      .status(403)
+      .json({ message: "Forbidden: Insufficient permissions" });
+  }
+  next();
+};
