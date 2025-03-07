@@ -95,10 +95,35 @@ const fetchStudents = async (req, res) => {
     res.status(500).json({ status: "error", message: "Internal server error" });
   }
 };
+const fetchTotalTeachers = async (req, res) => {
+  try {
+    const query = "SELECT * FROM teachers";
+    db.query(query, (err, result) => {
+      if (err) {
+        console.error(`Error fetching STUDENTS: ` + err.message);
+        return res
+          .status(500)
+          .json({ status: "error", message: "Internal server error" });
+      }
+
+      if (result.length === 0) {
+        return res
+          .status(404)
+          .json({ status: "error", message: "No students found" });
+      }
+
+      res.status(200).json({ status: "success", data: result });
+    });
+  } catch (error) {
+    console.error("Unexpected error in fetchStudents: " + error.message);
+    res.status(500).json({ status: "error", message: "Internal server error" });
+  }
+};
 
 module.exports = {
   handleAllUsers,
   handleSingleUser,
   handleSingleProfile,
   fetchStudents,
+  fetchTotalTeachers,
 };

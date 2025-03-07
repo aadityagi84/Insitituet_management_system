@@ -25,7 +25,7 @@ const handleLogin = async (req, res) => {
 
       const user = result[0];
       console.log(user);
-      if (user.is_verified === 0) {
+      if (user.is_verified === 0 || user.is_verified === null) {
         return res.status(400).json({
           errors: [{ msg: "User Not Verified, Please Contact to Institute" }],
         });

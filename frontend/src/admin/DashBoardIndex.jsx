@@ -4,11 +4,17 @@ import student from "../assets/graduated.png";
 import teacher from "../assets/female.png";
 import users from "../assets/profile.png";
 import axios from "axios";
+import { FaHome } from "react-icons/fa";
 import { apiData } from "../constant/utils";
+import Users from "./Users";
+import Loader from "../pages/Loader";
 
 const Institute = () => {
   const { username, role, user } = useAuth();
   const [userData, setUserData] = useState([]);
+  const [StudentData, setStudendtdata] = useState([]);
+  const [teacherData, setTeachers] = useState([]);
+
   const handleuserData = async () => {
     try {
       const response = await axios.get(apiData.adminUsersdata, {
@@ -16,19 +22,47 @@ const Institute = () => {
           Authorization: `Bearer ${user}`,
         },
       });
-      console.log(response.data?.data);
+      // console.log(response.data?.data);
       setUserData(response.data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getStudentData = async () => {
+    try {
+      const response = await axios.get(apiData.studentData, {
+        headers: {
+          Authorization: `Bearer ${user}`,
+        },
+      });
+      // console.log(response.data.data);
+      setStudendtdata(response.data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getTeachersData = async () => {
+    try {
+      const response = await axios.get(apiData.teacherdata, {
+        headers: {
+          Authorization: `Bearer ${user}`,
+        },
+      });
+      console.log(response.data.data);
+      setTeachers(response.data?.data);
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
     handleuserData();
+    getStudentData();
+    getTeachersData();
   }, []);
 
   useEffect(() => {
-    // console.log("data will from userData", userData);
-  }, [userData]);
+    console.log("data will from userData", teacherData);
+  }, [userData, StudentData, teacherData]);
 
   const stats = [
     {
@@ -39,18 +73,54 @@ const Institute = () => {
 
     {
       title: "Total Teachers",
-      value: "13k +38%",
+      value:
+        teacherData.length < 9
+          ? `0${teacherData.length}`
+          : `${teacherData.length}`,
       illustration: `${teacher}`,
     },
     {
       title: "Total Students",
-      value: "24.5k -22%",
+      value:
+        StudentData.length < 9
+          ? `0${StudentData.length}`
+          : `${StudentData.length}`,
       illustration: `${student}`,
     },
   ];
   return (
     <div className="p-8 min-h-screen bg-gradient-to-br from-gray-100 to-blue-50">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="dashboard-header rounded-md">
+        <div className="header-content ">
+          <div className="w-full flex flex-col">
+            <div className="flex  gap-2 items-center ">
+              <FaHome className="header-icon" />
+              <span className="header-title">Dashboard One</span>
+            </div>
+            <span className="welcome-text font-medium">
+              Welcome to <span className="text-red-600">Insitute</span>{" "}
+              Management System
+            </span>
+          </div>
+          <button className="download-btn">
+            <svg
+              className="download-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
         {stats.map((stat, index) => (
           <div
             key={index}
@@ -73,104 +143,7 @@ const Institute = () => {
           </div>
         ))}
       </div>
-      <div className=" mt-8 ">
-        <div className="flex bg-white  p-8 rounded-lg shadow-md border border-gray-200  flex-col">
-          <div className="-m-1.5  overflow-x-auto">
-            <div className="p-1.5 min-w-full inline-block align-middle">
-              <div className="overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-300">
-                  <thead>
-                    <tr>
-                      <th className="px-6 py-3 text-start text-xs font-medium text-gray-800 uppercase ">
-                        Id
-                      </th>
-                      <th className="px-6 py-3 text-start text-xs font-medium text-gray-800 uppercase ">
-                        Name
-                      </th>
-                      <th className="px-6 py-3 text-start text-xs font-medium text-gray-800 uppercase ">
-                        Email
-                      </th>
-                      <th className="px-6 py-3 text-start text-xs font-medium text-gray-800 uppercase ">
-                        Phone
-                      </th>
-                      <th className="px-6 py-3 text-start text-xs font-medium text-gray-800 uppercase ">
-                        Profession
-                      </th>
-                      <th className="px-6 py-3 text-start text-xs font-medium text-gray-800 uppercase ">
-                        Verified
-                      </th>
-                      <th className="px-6 py-3 text-start text-xs font-medium text-gray-800 uppercase ">
-                        Address
-                      </th>
-                      <th className="px-6 py-3 text-end text-xs font-medium text-gray-800 uppercase ">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200 dark:divide-neutral-300">
-                    {userData &&
-                    Array.isArray(userData) &&
-                    userData.length > 0 ? (
-                      userData.map((item, index) => (
-                        <tr key={index}>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 capitalize ">
-                            {item.id}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 capitalize ">
-                            {item.name}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
-                            {item.email}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
-                            +91-{item.phone}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
-                            {item.role === 1 ? "Teacher" : "Student"}
-                          </td>
-                          <td
-                            className={`px-6 py-4 whitespace-nowrap text-sm text-gray-800`}
-                          >
-                            <span
-                              className={` ${
-                                item.role === 0
-                                  ? "bg-red-200 text-red-600 border border-red-400"
-                                  : "bg-green-200 text-green-600  border-green-400 border"
-                              } px-6 py-1 rounded-md whitespace-nowrap text-sm text-center  text-gray-800`}
-                            >
-                              {item.role === 0 ? "Not Verified" : "Verified"}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 ">
-                            {item.address}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                            <button
-                              type="button"
-                              className="inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent text-blue-600 hover:text-blue-800 focus:outline-none focus:text-blue-800 disabled:opacity-50 disabled:pointer-events-none dark:text-blue-500 dark:hover:text-blue-400 dark:focus:text-blue-400"
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td
-                          colSpan="4"
-                          className="px-6 py-4 text-center text-gray-500"
-                        >
-                          Loading...
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Users />
     </div>
   );
 };

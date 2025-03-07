@@ -1,3 +1,62 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.dashboard-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 45px 40px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-icon {
+  color: #4a90e2;
+  font-size: 40px;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333333;
+  margin-right: 20px;
+}
+
+.welcome-text {
+  font-size: 14px;
+  color: #666666;
+  flex-grow: 1;
+}
+
+.download-btn {
+  background: none;
+  border: 1px solid #4a90e2;
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s;
+}
+
+.download-btn:hover {
+  background-color: #4a90e2;
+}
+
+.download-btn:hover .download-icon {
+  color: #ffffff;
+}
+
+.download-icon {
+  width: 16px;
+  height: 16px;
+  color: #4a90e2;
+}

@@ -8,6 +8,7 @@ const {
   handleSingleUser,
   handleSingleProfile,
   fetchStudents,
+  fetchTotalTeachers,
 } = require("../controller/GetUserController");
 const { handleUserUpdate } = require("../controller/UpdateuserController");
 const router = express.Router();
@@ -19,13 +20,14 @@ router.get("/verify", userAuth, (req, res) => {
 });
 router.get("/profile", userAuth, checkRole, handleAllUsers);
 router.get("/profile/:id", userAuth, checkRole, handleSingleUser);
-router.post("/update/:id", handleUserUpdate);
+router.post("/update/:id", userAuth, checkRole, handleUserUpdate);
 
 // userProfile
 router.get("/userProfile/:id", userAuth, checkRole, handleSingleProfile);
 
 // STUDENTS ROUTE
-router.get("/getStudent", fetchStudents);
+router.get("/getStudent", userAuth, checkRole, fetchStudents);
+router.get("/getteacher", userAuth, checkRole, fetchTotalTeachers);
 
 router.get("/logout", (req, res) => {
   res.clearCookie("sessionId", {

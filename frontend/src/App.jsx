@@ -15,6 +15,7 @@ import { useAuth } from "./context/UserContext";
 import Teacher from "./pages/Teacher";
 import Student from "./pages/Student";
 import Institute from "./admin/DashBoardIndex";
+import LandingPage from "./pages/LandingPage";
 
 const PrivateRoute = ({ children }) => {
   const { user } = useAuth();
@@ -42,8 +43,9 @@ function App() {
                 </PrivateRoute>
               }
             >
+              <Route index element={<LandingPage />} />
               <Route
-                index
+                path="/dashboard"
                 element={
                   <PrivateRoute>
                     <ProtectedRoute allowedRoles={[0]}>

@@ -19,7 +19,7 @@ const Sidebar = () => {
     switch (roleData) {
       case 0: // Admin
         return [
-          { name: "Dashboard", icon: FiGrid, link: "/" },
+          { name: "Dashboard", icon: FiGrid, link: "/dashboard" },
           { name: "Students", icon: FiUsers, link: "/student" },
           { name: "Teachers", icon: FiUsers, link: "/teacher" },
         ];

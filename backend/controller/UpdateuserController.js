@@ -50,7 +50,8 @@ const handleUserUpdate = async (req, res) => {
     if (emailResult.length > 0) {
       return res.status(400).json({
         status: "error",
-        message: "Email already exists in the other role. Cannot switch role.",
+        message:
+          "Email already exists in the other Profession. Cannot switch Profession.",
       });
     }
 
